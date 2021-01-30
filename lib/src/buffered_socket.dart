@@ -10,7 +10,7 @@ typedef DoneHandler = Function();
 typedef DataReadyHandler = Function();
 typedef ClosedHandler = Function();
 
-typedef SocketFactory = Function(String host, int port, Duration timeout);
+typedef SocketFactory = Function(dynamic host, int port, Duration timeout);
 
 class BufferedSocket {
   final Logger log;
@@ -57,12 +57,11 @@ class BufferedSocket {
     }
   }
 
-  static Future<RawSocket> defaultSocketFactory(
-          String host, int port, Duration timeout) =>
+  static Future<RawSocket> defaultSocketFactory(dynamic host, int port, Duration timeout) =>
       RawSocket.connect(host, port, timeout: timeout);
 
   static Future<BufferedSocket> connect(
-    String host,
+    dynamic host,
     int port,
     Duration timeout, {
     DataReadyHandler onDataReady,
