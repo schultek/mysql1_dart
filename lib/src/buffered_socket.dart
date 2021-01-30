@@ -72,7 +72,9 @@ class BufferedSocket {
   }) async {
     RawSocket socket;
     socket = await socketFactory(host, port, timeout);
-    socket.setOption(SocketOption.tcpNoDelay, true);
+    if (host is String) {
+      socket.setOption(SocketOption.tcpNoDelay, true);
+    }
     return BufferedSocket._(socket, onDataReady, onDone, onError, onClosed);
   }
 
