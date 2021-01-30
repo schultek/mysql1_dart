@@ -53,7 +53,7 @@ class ConnectionSettings {
       this.useSSL = false,
       this.maxPacketSize = 16 * 1024 * 1024,
       this.timeout = const Duration(seconds: 30),
-      this.characterSet = CharacterSet.UTF8MB4
+      this.characterSet = CharacterSet.UTF8MB4,
       this.socketPath});
 
   ConnectionSettings.copy(ConnectionSettings o) {
