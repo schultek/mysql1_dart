@@ -38,6 +38,7 @@ class ConnectionSettings {
   bool useSSL;
   int maxPacketSize;
   int characterSet;
+  String socketPath;
 
   /// The timeout for connecting to the database and for all database operations.
   Duration timeout;
@@ -52,7 +53,8 @@ class ConnectionSettings {
       this.useSSL = false,
       this.maxPacketSize = 16 * 1024 * 1024,
       this.timeout = const Duration(seconds: 30),
-      this.characterSet = CharacterSet.UTF8MB4});
+      this.characterSet = CharacterSet.UTF8MB4
+      this.socketPath});
 
   ConnectionSettings.copy(ConnectionSettings o) {
     host = o.host;
@@ -65,6 +67,7 @@ class ConnectionSettings {
     maxPacketSize = o.maxPacketSize;
     timeout = o.timeout;
     characterSet = o.characterSet;
+    socketPath = o.socketPath;
   }
 }
 
@@ -114,8 +117,10 @@ class MySqlConnection {
     Completer handshakeCompleter;
 
     _log.fine('opening connection to ${c.host}:${c.port}/${c.db}');
+    
+    var host = c.socketPath != null ? InternetAddress(c.socketPath, type: InternetAddressType.unix) : c.host;
 
-    var socket = await BufferedSocket.connect(c.host, c.port, c.timeout,
+    var socket = await BufferedSocket.connect(host, c.port, c.timeout,
         onDataReady: () {
       conn?._readPacket();
     }, onDone: () {
